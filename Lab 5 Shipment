@@ -1,0 +1,58 @@
+import java.util.Scanner;
+
+class ShippingCostCalculator {
+    
+    void calculateCost(int w) {
+        int cost = w * 5;
+        System.out.println("Standard Shipping Cost: " + cost);
+    }
+    
+    void calculateCost(int w, int d) {
+        int cost = (w * 5) + (d * 4);
+        System.out.println("Express Shipping Cost: " + cost);
+    }
+    
+    void calculateCost(int w, int d, String dest) {
+        int baseCost = (w * 5) + (d * 4);
+        int destCharge;
+        
+        if (dest.equalsIgnoreCase("usa")) {
+            destCharge = 100;
+        } else if (dest.equalsIgnoreCase("canada")) {
+            destCharge = 200;
+        } else if (dest.equalsIgnoreCase("australia")) {
+            destCharge = 300;
+        } else {
+            destCharge = 50;
+        }
+        
+        int totalCost = baseCost + destCharge;
+        System.out.println("International Shipping Cost to " + dest + ": " + totalCost);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ShippingCostCalculator scc = new ShippingCostCalculator();
+        
+        System.out.print("Enter weight for standard shipping (kg): ");
+        int wStd = scanner.nextInt();
+        scc.calculateCost(wStd);  
+        
+        System.out.print("Enter weight for express shipping (kg): ");
+        int wExp = scanner.nextInt();
+        System.out.print("Enter distance for express shipping (km): ");
+        int dExp = scanner.nextInt();
+        scc.calculateCost(wExp, dExp); 
+        
+        System.out.print("Enter weight for international shipping (kg): ");
+        int wInt = scanner.nextInt();
+        System.out.print("Enter distance for international shipping (km): ");
+        int dInt = scanner.nextInt();
+        System.out.print("Enter destination for international shipping: ");
+        String destInt = scanner.next();
+        scc.calculateCost(wInt, dInt, destInt); 
+     
+    }
+}
