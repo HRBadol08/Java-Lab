@@ -1,0 +1,200 @@
+\\Banking system
+import java.util.Scanner;
+
+class Customer {
+    public String customerId;
+    public String name;
+    public String address;
+    public String phoneNumber;
+
+    public Customer(String customerId, String name, String address, String phoneNumber) {
+        this.customerId = customerId;
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
+}
+
+class Account {
+    public String accountNumber;
+    public double balance;
+    public String accountType;
+
+    public Account(String accountNumber, double balance, String accountType) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.accountType = accountType;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited: " + amount);
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrew: " + amount);
+        } else {
+            System.out.println("Invalid or insufficient funds.");
+        }
+    }
+}
+
+class SavingsAccount extends Account {
+    public static final double INTEREST_RATE = 0.03;
+
+    public SavingsAccount(String accountNumber, double balance) {
+        super(accountNumber, balance, "Savings");
+    }
+
+    public void applyInterest() {
+        balance += balance * INTEREST_RATE;
+        System.out.println("Interest applied. New balance: " + balance);
+    }
+}
+
+class CheckingAccount extends Account {
+    public CheckingAccount(String accountNumber, double balance) {
+        super(accountNumber, balance, "Checking");
+    }
+}
+
+public class OnlineBankingSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Taking customer information from user input
+        System.out.print("Enter Customer ID: ");
+        String customerId = scanner.nextLine();
+
+        System.out.print("Enter Customer Name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter Customer Address: ");
+        String address = scanner.nextLine();
+
+        System.out.print("Enter Customer Phone Number: ");
+        String phoneNumber = scanner.nextLine();
+
+        Customer customer = new Customer(customerId, name, address, phoneNumber);
+
+        // Taking account information from user input
+        System.out.print("Enter Savings Account Number: ");
+        String savingsAccountNumber = scanner.nextLine();
+
+        System.out.print("Enter Initial Savings Account Balance: ");
+        double savingsBalance = scanner.nextDouble();
+        
+        SavingsAccount savingsAccount = new SavingsAccount(savingsAccountNumber, savingsBalance);
+
+        System.out.print("Enter Checking Account Number: ");
+        scanner.nextLine(); // Consume newline
+        String checkingAccountNumber = scanner.nextLine();
+
+        System.out.print("Enter Initial Checking Account Balance: ");
+        double checkingBalance = scanner.nextDouble();
+        
+        CheckingAccount checkingAccount = new CheckingAccount(checkingAccountNumber, checkingBalance);
+
+        // Performing some operations
+        System.out.print("Enter amount to deposit in Savings Account: ");
+        double depositAmount = scanner.nextDouble();
+        savingsAccount.deposit(depositAmount);
+
+        System.out.print("Enter amount to withdraw from Savings Account: ");
+        double withdrawAmount = scanner.nextDouble();
+        savingsAccount.withdraw(withdrawAmount);
+
+        System.out.println("Applying interest to Savings Account.");
+        savingsAccount.applyInterest();
+
+        System.out.print("Enter amount to deposit in Checking Account: ");
+        depositAmount = scanner.nextDouble();
+        checkingAccount.deposit(depositAmount);
+
+        System.out.print("Enter amount to withdraw from Checking Account: ");
+        withdrawAmount = scanner.nextDouble();
+        checkingAccount.withdraw(withdrawAmount);
+
+        System.out.println("\nFinal Savings Balance: " + savingsAccount.balance);
+        System.out.println("Final Checking Balance: " + checkingAccount.balance);
+
+        scanner.close();
+    }
+}
+
+
+Mid Question
+
+
+class Shop {
+    public String email;
+    public String location;
+
+    public Shop(String email, String location) {
+        this.email = email;
+        this.location = location;
+    }
+
+    public void displayShopInfo() {
+        System.out.println("Shop Email: " + email);
+        System.out.println("Shop Location: " + location);
+    }
+}
+
+class Agora extends Shop {
+    public Agora(String email, String location) {
+        super(email, location);
+    }
+
+}
+
+class Item {
+    public double unitPrice;
+    public Agora shop; 
+
+    public Item(double unitPrice, Agora shop) {
+        this.unitPrice = unitPrice;
+        this.shop = shop; 
+    }
+
+    public void displayItemInfo() {
+        System.out.println("Item Unit Price: $" + unitPrice);
+        System.out.println("Sold at Shop: " + shop.email); 
+    }
+}
+
+class Book extends Item {
+    public int isbnNumber;
+
+    public Book(double unitPrice, int isbnNumber, Agora shop) {
+        super(unitPrice, shop); 
+        this.isbnNumber = isbnNumber;
+    }
+
+
+    public void displayItemInfo() {
+        super.displayItemInfo();
+        System.out.println("ISBN Number: " + isbnNumber);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Agora agora = new Agora("agora@example.com", "123 Main Street");
+
+        agora.displayShopInfo();
+        System.out.println();
+
+        Item item1 = new Item(29.99, agora);
+        Book book = new Book(49.99, 123456, agora); 
+        item1.displayItemInfo();
+        System.out.println();
+        book.displayItemInfo();
+    }
+}
